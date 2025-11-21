@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SattyoAlert - সত্যAlert | Election Fact-Checking</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #DC2626, #991B1B);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .logo-text h1 {
+            font-size: 24px;
+            color: #1F2937;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 12px;
+            color: #6B7280;
+        }
+        
+        .nav-btn {
+            background: #DC2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #991B1B;
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            margin-top: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            color: #1F2937;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            color: #6B7280;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid #E5E7EB;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: #DC2626;
+            color: white;
+            border-color: #DC2626;
+        }
+        
+        /* Fact Check Cards */
+        .fact-check-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .fact-check-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .fact-check-card:hover {
+            border-color: #DC2626;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        
+        .card-category {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .category-election {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .category-religious {
+            background: #FED7AA;
+            color: #9A3412;
+        }
+        
+        .category-scam {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        .category-health {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .card-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .status-false {
+            background: #DC2626;
+            color: white;
+        }
+        
+        .status-true {
+            background: #10B981;
+            color: white;
+        }
+        
+        .status-misleading {
+            background: #F59E0B;
+            color: white;
+        }
+        
+        .card-claim {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .card-verdict {
+            color: #6B7280;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .card-source {
+            color: #6B7280;
+            font-size: 12px;
+        }
+        
+        .card-date {
+            color: #9CA3AF;
+            font-size: 12px;
+        }
+        
+        /* Report Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #DC2626;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: #DC2626;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #991B1B;
+            transform: translateY(-2px);
+        }
+        
+        /* Graphics Generator */
+        .generator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .generator-preview {
+            background: #F3F4F6;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        
+        .preview-canvas {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .preview-status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .preview-claim {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .preview-verdict {
+            color: #6B7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .preview-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #E5E7EB;
+            margin-top: 20px;
+        }
+        
+        .preview-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #DC2626;
+        }
+        
+        .preview-source {
+            font-size: 12px;
+            color: #6B7280;
+        }
+        
+        .download-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .download-btn:hover {
+            background: #059669;
+        }
+        
+        /* Daily Summary */
+        .summary-date {
+            background: #DC2626;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .summary-section {
+            margin-bottom: 30px;
+        }
+        
+        .summary-section h3 {
+            font-size: 20px;
+            color: #1F2937;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .summary-item {
+            background: #F9FAFB;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #DC2626;
+        }
+        
+        .summary-item h4 {
+            font-size: 16px;
+            color: #1F2937;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .summary-item p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            z-index: 100;
+        }
+        
+        .bottom-nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px 15px;
+            border-radius: 8px;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            color: #DC2626;
+            background: #FEE2E2;
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+        }
+        
+        .nav-label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Notification Demo */
+        .notification-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .notification-demo h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .notification-demo p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .notify-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .notify-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+        }
+        
+        .notification-toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            max-width: 350px;
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification-toast.show {
+            display: block;
+        }
+        
+        .toast-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            background: #DC2626;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .toast-title {
+            font-weight: 700;
+            color: #1F2937;
+        }
+        
+        .toast-body {
+            color: #6B7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text h1 {
+                font-size: 18px;
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .category-filter {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">✓</div>
+                <div class="logo-text">
+                    <h1>SattyoAlert</h1>
+                    <p>সত্য Alert - নির্বাচন তথ্য যাচাই</p>
+                </div>
+            </div>
+            <button class="nav-btn" onclick="showNotification()">🔔 Enable Alerts</button>
+        </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="toast-header">
+            <div class="toast-icon">⚠️</div>
+            <div class="toast-title">মিথ্যা দাবি শনাক্ত!</div>
+        </div>
+        <div class="toast-body">
+            "ইভিএম মেশিন দূর থেকে হ্যাক করা যায়" - এই দাবিটি সম্পূর্ণ মিথ্যা। নির্বাচন কমিশন নিশ্চিত করেছে যে সব যন্ত্র নিরাপদ।
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Home Page -->
+            <div id="homePage" class="page">
+                <h2 class="page-title">সাম্প্রতিক তথ্য যাচাই</h2>
+                <p class="page-subtitle">নির্বাচন সংক্রান্ত ভুয়া তথ্য শনাক্তকরণ এবং সঠিক তথ্য প্রদান</p>
+                
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="category-btn active" onclick="filterCategory('all')">সব</button>
+                    <button class="category-btn" onclick="filterCategory('election')">🗳️ নির্বাচন</button>
+                    <button class="category-btn" onclick="filterCategory('religious')">🕌 ধর্মীয়</button>
+                    <button class="category-btn" onclick="filterCategory('scam')">💰 স্ক্যাম</button>
+                    <button class="category-btn" onclick="filterCategory('health')">🏥 স্বাস্থ্য</button>
+                </div>
+                
+                <!-- Fact Check Grid -->
+                <div class="fact-check-grid" id="factCheckGrid">
+                    <!-- Cards will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Report Page -->
+            <div id="reportPage" class="page hidden">
+                <h2 class="page-title">সন্দেহজনক তথ্য রিপোর্ট করুন</h2>
+                <p class="page-subtitle">আপনার দেখা ভুয়া বা সন্দেহজনক তথ্য আমাদের জানান</p>
+                
+                <form onsubmit="submitReport(event)">
+                    <div class="form-group">
+                        <label class="form-label">দাবির বিবরণ *</label>
+                        <textarea class="form-textarea" placeholder="আপনি যে তথ্যটি সন্দেহজনক মনে করছেন তা এখানে লিখুন..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">বিভাগ *</label>
+                        <select class="form-select" required>
+                            <option value="">একটি বিভাগ নির্বাচন করুন</option>
+                            <option value="election">নির্বাচন</option>
+                            <option value="religious">ধর্মীয়</option>
+                            <option value="scam">স্ক্যাম</option>
+                            <option value="health">স্বাস্থ্য</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">সূত্র (ঐচ্ছিক)</label>
+                        <input type="url" class="form-input" placeholder="https://example.com/post">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">গুরুত্ব স্তর *</label>
+                        <select class="form-select" required>
+                            <option value="">নির্বাচন করুন</option>
+                            <option value="high">উচ্চ - জরুরি যাচাই প্রয়োজন</option>
+                            <option value="medium">মাঝারি - দ্রুত যাচাই প্রয়োজন</option>
+                            <option value="low">নিম্ন - সাধারণ যাচাই</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">রিপোর্ট জমা দিন</button>
+                </form>
+            </div>
+
+            <!-- Generate Page -->
+            <div id="generatePage" class="page hidden">
+                <h2 class="page-title">শেয়ারযোগ্য গ্রাফিক্স তৈরি করুন</h2>
+                <p class="page-subtitle">সঠিক তথ্য সোশ্যাল মিডিয়ায় শেয়ার করার জন্য গ্রাফিক্স তৈরি করুন</p>
+                
+                <div class="generator-container">
+                    <div class="generator-form">
+                        <div class="form-group">
+                            <label class="form-label">দাবি</label>
+                            <textarea id="genClaim" class="form-textarea" placeholder="মিথ্যা দাবিটি লিখুন...">ইভিএম মেশিন দূর থেকে হ্যাক করা যায়</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">সত্যতা</label>
+                            <select id="genStatus" class="form-select">
+                                <option value="false">মিথ্যা</option>
+                                <option value="true">সত্য</option>
+                                <option value="misleading">বিভ্রান্তিকর</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">ব্যাখ্যা</label>
+                            <textarea id="genVerdict" class="form-textarea" placeholder="সংক্ষিপ্ত ব্যাখ্যা...">নির্বাচন কমিশন নিশ্চিত করেছে যে সব ইভিএম মেশিন সম্পূর্ণ অফলাইন এবং কোনো ইন্টারনেট সংযোগ নেই।</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">সূত্র</label>
+                            <input id="genSource" type="text" class="form-input" value="Boom Bangladesh" placeholder="যাচাইকারী প্রতিষ্ঠান">
+                        </div>
+                        
+                        <button class="submit-btn" onclick="updatePreview()">প্রিভিউ আপডেট করুন</button>
+                        <button class="download-btn" onclick="downloadGraphic()">📥 ডাউনলোড করুন</button>
+                    </div>
+                    
+                    <div class="generator-preview">
+                        <div class="preview-canvas" id="previewCanvas">
+                            <span class="preview-status status-false">মিথ্যা</span>
+                            <div class="preview-claim">ইভিএম মেশিন দূর থেকে হ্যাক করা যায়</div>
+                            <div class="preview-verdict">নির্বাচন কমিশন নিশ্চিত করেছে যে সব ইভিএম মেশিন সম্পূর্ণ অফলাইন এবং কোনো ইন্টারনেট সংযোগ নেই।</div>
+                            <div class="preview-footer">
+                                <div class="preview-logo">SattyoAlert</div>
+                                <div class="preview-source">সূত্র: Boom Bangladesh</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Page -->
+            <div id="summaryPage" class="page hidden">
+                <h2 class="page-title">দৈনিক সারসংক্ষেপ</h2>
+                <p class="page-subtitle">আজকের গুরুত্বপূর্ণ তথ্য যাচাই</p>
+                
+                <div class="summary-date">📅 ২২ নভেম্বর, ২০২৫ - শুক্রবার</div>
+                
+                <div class="summary-section">
+                    <h3>🔴 জরুরি: মিথ্যা দাবি শনাক্ত</h3>
+                    <div class="summary-item">
+                        <h4>ইভিএম মেশিন হ্যাক সম্পর্কিত ভুয়া তথ্য</h4>
+                        <p>৫০,০০০+ শেয়ার হওয়া এই দাবিটি সম্পূর্ণ মিথ্যা। সব মেশিন অফলাইন এবং নিরাপদ।</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>ভোটার তালিকা থেকে নাম বাদ দেওয়ার গুজব</h4>
+                        <p>কিছু এলাকায় ছড়িয়ে পড়া এই তথ্যটি মিথ্যা। সব ভোটার তালিকা অপরিবর্তিত আছে।</p>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>✅ সত্য তথ্য</h3>
+                    <div class="summary-item">
+                        <h4>ভোটার রেজিস্ট্রেশন সময়সীমা বৃদ্ধি</h4>
+                        <p>নির্বাচন কমিশন আনুষ্ঠানিকভাবে নিবন্ধনের সময়সীমা ৩০ নভেম্বর পর্যন্ত বাড়িয়েছে।</p>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>⚠️ বিভ্রান্তিকর তথ্য</h3>
+                    <div class="summary-item">
+                        <h4>নির্দিষ্ট এলাকায় ভোট কেন্দ্র পরিবর্তন</h4>
+                        <p>আংশিক সত্য। শুধুমাত্র ঢাকার ৩টি এলাকায় কেন্দ্র পরিবর্তিত হয়েছে, সারাদেশে নয়।</p>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h3>📊 আজকের পরিসংখ্যান</h3>
+                    <div class="summary-item">
+                        <h4>যাচাই করা দাবি: ২৩টি | মিথ্যা: ১৫ | সত্য: ৫ | বিভ্রান্তিকর: ৩</h4>
+                        <p>ব্যবহারকারীদের রিপোর্ট: ১৫৬টি | যাচাইকরণের অপেক্ষায়: ৪২টি</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-content">
+            <div class="nav-item active" onclick="showPage('homePage')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">হোম</div>
+            </div>
+            <div class="nav-item" onclick="showPage('reportPage')">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">রিপোর্ট</div>
+            </div>
+            <div class="nav-item" onclick="showPage('generatePage')">
+                <div class="nav-icon">🎨</div>
+                <div class="nav-label">গ্রাফিক্স</div>
+            </div>
+            <div class="nav-item" onclick="showPage('summaryPage')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">সারসংক্ষেপ</div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Sample fact-check data
+        const factChecks = [
+            {
+                id: 1,
+                category: 'election',
+                status: 'false',
+                claim: 'ইভিএম মেশিন দূর থেকে হ্যাক করা যায়',
+                verdict: 'নির্বাচন কমিশন নিশ্চিত করেছে যে সব ইভিএম মেশিন সম্পূর্ণ অফলাইন এবং কোনো ইন্টারনেট বা ব্লুটুথ সংযোগ নেই। হ্যাক করা সম্পূর্ণ অসম্ভব।',
+                source: 'Boom Bangladesh',
+                date: '২২ নভেম্বর, ২০২৫'
+            },
+            {
+                id: 2,
+                category: 'religious',
+                status: 'false',
+                claim: 'নির্দিষ্ট ধর্মের মানুষদের কিছু এলাকায় ভোট দিতে নিষেধ করা হয়েছে',
+                verdict: 'এই দাবিটি সম্পূর্ণ মিথ্যা। বাংলাদেশের সব নাগরিকের সমান ভোটাধিকার রয়েছে এবং কোনো বৈষম্য নেই।',
+                source: 'AFP Fact Check Bangladesh',
+                date: '২১ নভেম্বর, ২০২৫'
+            },
+            {
+                id: 3,
+                category: 'election',
+                status: 'true',
+                claim: 'ভোটার রেজিস্ট্রেশন সময়সীমা ৩০ নভেম্বর পর্যন্ত বাড়ানো হয়েছে',
+                verdict: 'নির্বাচন কমিশন আনুষ্ঠানিকভাবে ঘোষণা করেছে যে নতুন ভোটার নিবন্ধনের সময়সীমা ৩০ নভেম্বর পর্যন্ত বাড়ানো হয়েছে।',
+                source: 'নির্বাচন কমিশন',
+                date: '২০ নভেম্বর, ২০২৫'
+            },
+            {
+                id: 4,
+                category: 'scam',
+                status: 'false',
+                claim: 'ভোট দিতে জাতীয় পরিচয়পত্রের সাথে আধার কার্ড প্রয়োজন',
+                verdict: 'বাংলাদেশে আধার কার্ড বলে কিছু নেই। ভোট দিতে শুধু জাতীয় পরিচয়পত্র প্রয়োজন।',
+                source: 'Rumor Scanner',
+                date: '২১ নভেম্বর, ২০২৫'
+            },
+            {
+                id: 5,
+                category: 'election',
+                status: 'misleading',
+                claim: 'ভোট কেন্দ্রের অবস্থান পরিবর্তন করা হয়েছে',
+                verdict: 'আংশিক সত্য। শুধুমাত্র ঢাকার ৩টি নির্দিষ্ট এলাকায় নিরাপত্তার কারণে কেন্দ্র পরিবর্তন করা হয়েছে, সারাদেশে নয়।',
+                source: 'Boom Bangladesh',
+                date: '২২ নভেম্বর, ২০২৫'
+            },
+            {
+                id: 6,
+                category: 'health',
+                status: 'false',
+                claim: 'কোভিড টিকা নেওয়া বাধ্যতামূলক ভোট দেওয়ার জন্য',
+                verdict: 'এই তথ্যটি সম্পূর্ণ মিথ্যা। ভোট দেওয়ার জন্য কোনো টিকা নেওয়ার প্রয়োজন নেই।',
+                source: 'AFP Fact Check Bangladesh',
+                date: '১৯ নভেম্বর, ২০২৫'
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        // Initialize page
+        function init() {
+            renderFactChecks();
+        }
+
+        // Render fact-check cards
+        function renderFactChecks() {
+            const grid = document.getElementById('factCheckGrid');
+            const filtered = currentFilter === 'all' 
+                ? factChecks 
+                : factChecks.filter(fc => fc.category === currentFilter);
+
+            grid.innerHTML = filtered.map(fc => `
+                <div class="fact-check-card">
+                    <div class="card-header">
+                        <span class="card-category category-${fc.category}">
+                            ${getCategoryName(fc.category)}
+                        </span>
+                        <span class="card-status status-${fc.status}">
+                            ${getStatusName(fc.status)}
+                        </span>
+                    </div>
+                    <div class="card-claim">${fc.claim}</div>
+                    <div class="card-verdict">${fc.verdict}</div>
+                    <div class="card-footer">
+                        <div class="card-source">সূত্র: ${fc.source}</div>
+                        <div class="card-date">${fc.date}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter by category
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderFactChecks();
+        }
+
+        // Get category name in Bangla
+        function getCategoryName(category) {
+            const names = {
+                election: '🗳️ নির্বাচন',
+                religious: '🕌 ধর্মীয়',
+                scam: '💰 স্ক্যাম',
+                health: '🏥 স্বাস্থ্য'
+            };
+            return names[category] || category;
+        }
+
+        // Get status name in Bangla
+        function getStatusName(status) {
+            const names = {
+                'false': 'মিথ্যা',
+                'true': 'সত্য',
+                'misleading': 'বিভ্রান্তিকর'
+            };
+            return names[status] || status;
+        }
+
+        // Show/hide pages
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Submit report
+        function submitReport(e) {
+            e.preventDefault();
+            alert('✅ আপনার রিপোর্ট সফলভাবে জমা হয়েছে!\n\nআমাদের টিম শীঘ্রই এটি যাচাই করবে এবং আপডেট প্রদান করবে।');
+            e.target.reset();
+        }
+
+        // Update graphics preview
+        function updatePreview() {
+            const claim = document.getElementById('genClaim').value;
+            const status = document.getElementById('genStatus').value;
+            const verdict = document.getElementById('genVerdict').value;
+            const source = document.getElementById('genSource').value;
+
+            const preview = document.getElementById('previewCanvas');
+            
+            const statusClass = `status-${status}`;
+            const statusText = getStatusName(status);
+
+            preview.innerHTML = `
+                <span class="preview-status ${statusClass}">${statusText}</span>
+                <div class="preview-claim">${claim}</div>
+                <div class="preview-verdict">${verdict}</div>
+                <div class="preview-footer">
+                    <div class="preview-logo">SattyoAlert</div>
+                    <div class="preview-source">সূত্র: ${source}</div>
+                </div>
+            `;
+        }
+
+        // Download graphic (demo)
+        function downloadGraphic() {
+            alert('📥 ডাউনলোড শুরু হচ্ছে...\n\n(ডেমো সংস্করণে, এটি প্রকৃত ডাউনলোড করবে না। পূর্ণ সংস্করণে HTML Canvas ব্যবহার করে ছবি তৈরি হবে।)');
+        }
+
+        // Show notification
+        function showNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>
